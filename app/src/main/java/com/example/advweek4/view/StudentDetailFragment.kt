@@ -1,28 +1,23 @@
 package com.example.advweek4.view
 
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.example.advweek4.R
-
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+import com.example.advweek4.viewmodel.DetailViewModel
+import com.example.advweek4.viewmodel.ListViewModel
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 
 
 class StudentDetailFragment : Fragment() {
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
-
+    private lateinit var viewModel: DetailViewModel
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -31,5 +26,22 @@ class StudentDetailFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_student_detail, container, false)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel = ViewModelProvider(this)[DetailViewModel::class.java]
+        viewModel.fetch()
+        observeDetailViewModel()
+    }
 
+    fun observeDetailViewModel(){
+        viewModel.studentLD.observe(viewLifecycleOwner, Observer {
+            view?.let {v->
+                v.findViewById<TextInputEditText>(R.id.txtInputId).setText(it.id)
+                v.findViewById<TextInputEditText>(R.id.txtInputName).setText(it.name)
+                v.findViewById<TextInputEditText>(R.id.txtInputBOD).setText(it.dob)
+                v.findViewById<TextInputEditText>(R.id.txtInputPhone).setText(it.phone)
+                v.findViewById<ImageView>(R.id.imgProfile_detail).setImageURI(Uri.parse(it.photoUrl))
+            }
+        })
+    }
 }
