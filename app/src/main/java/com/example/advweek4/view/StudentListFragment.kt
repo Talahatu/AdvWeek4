@@ -63,12 +63,6 @@ class StudentListFragment : Fragment() {
         v.layoutManager = LinearLayoutManager(context)
         v.adapter = studentListAdapter
         observeViewModel()
-//        view.findViewById<SwipeRefreshLayout>(R.id.SwipeRefreshLayout).setOnRefreshListener {
-//            Handler(Looper.getMainLooper()).postDelayed({
-//                viewModel.studentsLD.value= arrayListOf(Student("a","a","A","a","d",))
-//                view.findViewById<SwipeRefreshLayout>(R.id.SwipeRefreshLayout).isRefreshing=false
-//            },2000)
-//        }
     }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
