@@ -63,6 +63,14 @@ class StudentListFragment : Fragment() {
         v.layoutManager = LinearLayoutManager(context)
         v.adapter = studentListAdapter
         observeViewModel()
+        val srl = view.findViewById<SwipeRefreshLayout>(R.id.SwipeRefreshLayout)
+        srl.setOnRefreshListener {
+            v.visibility=View.GONE
+            view.findViewById<TextView>(R.id.txtError).visibility = View.GONE
+            view.findViewById<ProgressBar>(R.id.progLoad).visibility = View.VISIBLE
+            viewModel.refresh()
+            srl.isRefreshing=false
+        }
     }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
