@@ -10,6 +10,7 @@ import android.widget.ImageView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.advweek4.R
+import com.example.advweek4.util.loadImage
 import com.example.advweek4.viewmodel.DetailViewModel
 import com.example.advweek4.viewmodel.ListViewModel
 import com.google.android.material.textfield.TextInputEditText
@@ -28,8 +29,9 @@ class StudentDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        var id = StudentDetailFragmentArgs.fromBundle(requireArguments()).id
         viewModel = ViewModelProvider(this)[DetailViewModel::class.java]
-        viewModel.fetch()
+        viewModel.fetch(id)
         observeDetailViewModel()
     }
 
@@ -40,7 +42,7 @@ class StudentDetailFragment : Fragment() {
                 v.findViewById<TextInputEditText>(R.id.txtInputName).setText(it.name)
                 v.findViewById<TextInputEditText>(R.id.txtInputBOD).setText(it.dob)
                 v.findViewById<TextInputEditText>(R.id.txtInputPhone).setText(it.phone)
-                v.findViewById<ImageView>(R.id.imgProfile_detail).setImageURI(Uri.parse(it.photoUrl))
+                v.findViewById<ImageView>(R.id.imgProfile_detail).loadImage(it.photoUrl,v.findViewById(R.id.detailProgressBar))
             }
         })
     }
